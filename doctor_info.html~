@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/stylesheet.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript">
+      // Populate Drop Down Menu with users from MySQL
+                $.ajax({
+                    url: "doctors/select",
+                    type: "POST",
+                    contentType: "application/json",
+                    processData: false,
+                    complete: function (data) {
+                        $('div#select').html(data.responseText);
+                    }
+                });
+  
+      $(document).ready(function () {
+            $('#user-submit').click(function () {
+                var payload = {
+                    drLName: $('#lastname').val()
+                };
+
+		console.log(payload);
+
+                $.ajax({
+                    url: "/doctor_info",
+                    type: "POST",
+                    contentType: "application/json",
+                    processData: false,
+                    data: JSON.stringify(payload),
+                    complete: function (data) {
+                        $('#output').html(data.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Hospital Database</h1>
+    </div>
+    <div class="menu">
+      <a href="../">Home</a><br />
+      <a href="../add_patient">Add a Patient</a><br />
+      <a href="../patient_info">Find Patient Information</a><br />
+      <a href="../add_doctor">Add a Doctor</a><br />
+      <a href="../doctor_info">Find Doctor Information</a><br />
+    </div>
+    <div class="content">
+      <h3>Retrieve Doctor's Information</h3>
+      <div id="select"></div>
+      <!--Last Name: <input id="lastname" type="text" /--> <br />
+      <input id="user-submit" type="submit" />
+      <p id="output"></p>
+    </div>
+  </body>
+</html>

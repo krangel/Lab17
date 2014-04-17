@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/stylesheet.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#user-submit').click(function () {
+                var payload = {
+                    pFName: $('#firstname').val(),
+                    pLName: $('#lastname').val(),
+                    homeAddress: $('#address').val(),
+                    pPhoneNum: $('#phone').val()
+                };
+
+		console.log(payload);
+
+                $.ajax({
+                    url: "/add_patient",
+                    type: "POST",
+                    contentType: "application/json",
+                    processData: false,
+                    data: JSON.stringify(payload),
+                    complete: function (data) {
+                        $('#output').html(data.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+  </head>
+  <body>
+  <div class="header">
+      <h1>Hospital Database</h1>
+    </div>
+    <div class="menu">
+      <a href="../">Home</a><br />
+      <a href="../add_patient/">Add a Patient</a><br />
+      <a href="../patient_info/">Find Patient Information</a><br />
+      <a href="../add_doctor/">Add a Doctor</a><br />
+      <a href="../doctor_info/">Find Doctor Information</a><br />
+    </div>
+    <div class="content">
+      <h3>Enter a patient to enter into the database:</h3>
+      First Name: <input id="firstname" type="text" /> <br />
+      Last Name: <input id="lastname" type="text" /> <br />
+      Address: <input id="address" type="text" /> <br />
+      Phone Number: <input id="phone" type="text" /> <br />
+      <input id="user-submit" type="submit" />
+      <p id="output"></p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/stylesheet.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript">
+      alert('test')
+      $(document).ready(function () {
+                    // Populate table with patients from MySQL
+
+                     $.ajax({
+                       url: "/patients/table",
+                       type: "POST",
+                       contentType: "application/json",
+                       processData: false,
+                       complete: function (data) {
+                        $('div#table').html(data.responseText);
+                       }
+      });
+                      $.ajax({
+                      url: "/patient_info",
+                      type: "POST",
+                      contentType: "application/json",
+                      processData: false,
+                      data: JSON.stringify(payload),
+                      complete: function (data) {
+                      $('#output').html(data.responseText);
+                    }
+                });
+             });
+         
+    </script>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Hospital Database</h1>
+    </div>
+    <div class="menu">
+      <a href="../">Home</a><br />
+      <a href="../add_patient">Add a Patient</a><br />
+      <a href="../patient_info">Find Patient Information</a><br />
+      <a href="../add_doctor">Add a Doctor</a><br />
+      <a href="../doctor_info">Find Doctor Information</a><br />
+    </div>
+    <div class="content">
+      <h3>Select a Patient ID to Retrieve Emergency Contact Information</h3>
+      <div id="table"></div>
+      <p id="output"></p>
+    </div>
+  </body>
+</html>
